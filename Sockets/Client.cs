@@ -49,6 +49,27 @@ namespace Sockets
             SendMsg(msg);
         }
 
+        // 关闭Socket
+        private void Server_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (client == null)
+                return;
+
+            if (!client.Connected)
+                return;
+
+            try
+            {
+                client.Shutdown(SocketShutdown.Both);
+            }
+            catch { }
+            try
+            {
+                client.Close();
+            }
+            catch { }
+        }
+
         // 异步接收信息
         private void ReceiveCallback(IAsyncResult result)
         {

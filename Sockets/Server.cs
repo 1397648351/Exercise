@@ -24,8 +24,8 @@ namespace Sockets
     public partial class Server : Form
     {
         private EndPoint endPoint;
-        List<SocketMsg> list;
-        //private Socket server;
+        private List<SocketMsg> list;
+        private Socket server;
 
         public Server()
         {
@@ -33,10 +33,26 @@ namespace Sockets
             this.Load += new EventHandler(Server_Load);
             this.FormClosing += new FormClosingEventHandler(Server_FormClosing);
         }
-
+        
+        // 关闭Socket
         private void Server_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (server == null)
+                return;
 
+            if (!server.Connected)
+                return;
+
+            try
+            {
+                server.Shutdown(SocketShutdown.Both);
+            }
+            catch { }
+            try
+            {
+                server.Close();
+            }
+            catch { }
         }
 
         private void Server_Load(object sender, EventArgs e)
@@ -59,7 +75,7 @@ namespace Sockets
         {
             list = new List<SocketMsg>();
             endPoint = new IPEndPoint(IPAddress.Any, 4399);
-            Socket server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);    // 初始化soket对象
+            server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);    // 初始化soket对象
             try
             {
                 server.Bind(endPoint);                                                                      // 绑定 0.0.0.0:4399
@@ -76,7 +92,7 @@ namespace Sockets
         //异步等待连接
         private void AcceptCallBack(IAsyncResult result)
         {
-            Socket server = (Socket)result.AsyncState;
+            //server = (Socket)result.AsyncState;
             Socket client = server.EndAccept(result);                                                       // 获取到连接的对象
             ShowMsg(client.RemoteEndPoint.ToString() + "已连接");
             string msg = "欢迎你，" + client.RemoteEndPoint.ToString();
