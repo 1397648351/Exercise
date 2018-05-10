@@ -1,5 +1,5 @@
 ﻿/************************************************
- * 项目名称 ：Exercise   
+ * 项目名称 ：Voice   
  * 项目描述 ：
  * 文件名称 ：Voice.cs
  * 版 本 号 ：v1.0.0.0  
@@ -16,12 +16,12 @@ using System.Speech.Synthesis;
 using System.Threading;
 using System.Collections.Generic;
 
-namespace Exercise
+namespace Voice
 {
-    public partial class Voice : Form
+    public partial class Main : Form
     {
         private SpeechSynthesizer synth;                                                   // Synthesis对象
-        public Voice()
+        public Main()
         {
             InitializeComponent();
             this.Load += new EventHandler(Voice_Load);                                     // 窗口加载事件

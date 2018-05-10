@@ -1,6 +1,6 @@
-﻿namespace Exercise
+﻿namespace Voice
 {
-    partial class Voice
+    partial class Main
     {
         /// <summary>
         /// Required designer variable.
